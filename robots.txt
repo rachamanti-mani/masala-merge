@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://masala-merge.vercel.app/sitemap.xml
