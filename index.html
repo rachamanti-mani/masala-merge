@@ -5,25 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Masala Merge – Free Online Indian Food Merge Puzzle Game</title>
 <meta name="description" content="Masala Merge is a free merge puzzle. Swipe to combine chillies, garlic, onions and more all the way up to the Royal Thali. Play instantly on phone or PC.">
-<!-- AFTER ADSENSE APPROVAL: uncomment and replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 <meta name="author" content="Mr.MR">
+<link rel="canonical" href="https://masala-merge.vercel.app/">
+
+<!-- Google AdSense: confirm this publisher ID matches the one shown in your AdSense account. -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119913428693800" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" href="style.css">
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,sans-serif;background:#2b1a12;color:#fff4e6;line-height:1.6}
 main{max-width:520px;margin:0 auto;padding:16px}
+.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:16px}
+.nav a{white-space:nowrap}
 h1{margin:8px 0 4px;font-size:2rem;text-align:center;color:#ffb347}
 .sub{text-align:center;margin:0 0 14px;opacity:.85}
-.bar{display:flex;gap:8px;margin-bottom:12px}
+.by{text-align:center}
+.bar{display:flex;gap:8px;margin-bottom:12px;align-items:stretch}
 .box{flex:1;background:#4a2c1d;border-radius:10px;padding:6px 10px;text-align:center}
 .box b{display:block;font-size:1.3rem}
 button{background:#ff7a1a;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-size:1rem;font-weight:700;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #wrap{position:relative}
-#board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;background:#4a2c1d;padding:8px;border-radius:14px;touch-action:none;user-select:none}
-.t{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#5e3a28;color:#2b1a12;font-weight:700}
-.t span{font-size:clamp(1.8rem,9vw,2.8rem);line-height:1}
-.t small{font-size:clamp(.55rem,2.6vw,.75rem)}
+#board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;background:#4a2c1d;padding:8px;border-radius:14px;touch-action:none;user-select:none}
+.t{aspect-ratio:1;min-width:0;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#5e3a28;color:#2b1a12;font-weight:700;overflow:hidden}
+.t span{font-size:clamp(1.4rem,8vw,2.8rem);line-height:1}
+.t small{font-size:clamp(.5rem,2.3vw,.75rem);text-align:center;overflow-wrap:anywhere}
 .e{background:#5e3a28}
 .n{animation:pop .18s ease-out}
 @keyframes pop{from{transform:scale(.4)}to{transform:scale(1)}}
@@ -32,31 +39,32 @@ button{background:#ff7a1a;color:#fff;border:0;border-radius:10px;padding:10px 16
 .pad{display:grid;grid-template-columns:repeat(3,68px);grid-template-rows:repeat(2,58px);gap:8px;justify-content:center;margin:16px 0}
 .pad button{font-size:1.6rem;padding:0}
 #bu{grid-column:2;grid-row:1}#bl{grid-column:1;grid-row:2}#bd{grid-column:2;grid-row:2}#br{grid-column:3;grid-row:2}
-.ad{margin:14px 0;min-height:90px;border:1px dashed #6b4a38;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;opacity:.6}
 section{margin-top:22px}
 h2.s{color:#ffb347;font-size:1.25rem}
-#legend{font-size:.95rem;line-height:2}
+#legend{font-size:.95rem;line-height:2;overflow-wrap:anywhere}
 footer{text-align:center;margin:28px 0 12px;font-size:.85rem;opacity:.8}
 a{color:#ffb347}
+@media(max-width:360px){main{padding:10px}#board{gap:5px;padding:5px}.bar{gap:5px}.box{padding:5px}button{padding:9px 10px}}
 </style>
 </head>
 <body>
 <main>
-<nav class="nav"><a href="index.html">🎮 Play</a><a href="guide.html">Guide</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
+<nav class="nav" aria-label="Main navigation"><a href="index.html">🎮 Play</a><a href="guide.html">Guide</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
 <h1>Masala Merge</h1>
 <p class="sub">Swipe, drag, use arrow keys or the buttons. Reach the Royal Thali!</p>
 <p class="by">Built by <a href="https://mrmr-website.vercel.app/">Mr.MR</a></p>
 <div class="bar">
 <div class="box">Score<b id="sc">0</b></div>
 <div class="box">Best<b id="bs">0</b></div>
-<button id="nw">New Game</button>
+<button id="nw" type="button">New Game</button>
 </div>
 <div id="wrap">
-<div id="board"></div>
-<div id="ov"><h2 id="ot"></h2><p id="om"></p><button id="ob"></button></div>
+<div id="board" role="grid" aria-label="Masala Merge game board"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-labelledby="ot" aria-describedby="om"><h2 id="ot"></h2><p id="om"></p><button id="ob" type="button"></button></div>
 </div>
-<div class="pad"><button id="bu" aria-label="Up">▲</button><button id="bl" aria-label="Left">◀</button><button id="bd" aria-label="Down">▼</button><button id="br" aria-label="Right">▶</button></div>
-
+<div class="pad" aria-label="Game controls">
+<button id="bu" type="button" aria-label="Up">▲</button><button id="bl" type="button" aria-label="Left">◀</button><button id="bd" type="button" aria-label="Down">▼</button><button id="br" type="button" aria-label="Right">▶</button>
+</div>
 
 <section>
 <h2 class="s">How to play</h2>
@@ -74,50 +82,77 @@ a{color:#ffb347}
 <p>Masala Merge is a free browser puzzle game inspired by classic merge games, with a food theme. It runs on any phone, tablet or computer with no download or sign-up. Your best score is saved on your device. Created by <a href="https://mrmr-website.vercel.app/">Mr.MR</a>.</p>
 </section>
 
-
 <footer>Built by <a href="https://mrmr-website.vercel.app/">Mr.MR</a> · <a href="guide.html">Guide</a> · <a href="about.html">About</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy Policy</a><br>© 2026 Mr.MR. All rights reserved.</footer>
 </main>
 <script>
 (function(){
+'use strict';
 const E=['','🌶️','🧄','🧅','🍅','🥔','🥕','🍆','🍚','🍛','🍲','🏆'];
 const NM=['','Chilli','Garlic','Onion','Tomato','Potato','Carrot','Brinjal','Rice','Curry','Dal Pot','Royal Thali'];
-let g,score,best=0,over,won,fresh,act;
-try{best=+localStorage.getItem('mm_best')||0}catch(e){}
+let g,score,best=0,over=false,won=false,fresh=-1,act=null;
+try{best=Number(localStorage.getItem('mm_best'))||0}catch(e){}
 const $=id=>document.getElementById(id);
-const pos=(d,l,i)=>d==0?l*4+i:d==1?l*4+3-i:d==2?i*4+l:(3-i)*4+l;
-function add(){const e=[];g.forEach((v,i)=>{if(!v)e.push(i)});if(!e.length)return;fresh=e[Math.floor(Math.random()*e.length)];g[fresh]=Math.random()<.9?1:2}
-function can(){for(let i=0;i<16;i++){if(!g[i])return true;if(i%4<3&&g[i]==g[i+1])return true;if(i<12&&g[i]==g[i+4])return true}return false}
-function show(t,m,b,f){$('ot').textContent=t;$('om').textContent=m;$('ob').textContent=b;act=f;$('ov').style.display='flex'}
+const pos=(d,l,i)=>d===0?l*4+i:d===1?l*4+3-i:d===2?i*4+l:(3-i)*4+l;
+function add(){
+ const empty=[];
+ g.forEach((v,i)=>{if(!v)empty.push(i)});
+ if(!empty.length)return;
+ fresh=empty[Math.floor(Math.random()*empty.length)];
+ g[fresh]=Math.random()<0.9?1:2;
+}
+function can(){
+ for(let i=0;i<16;i++){
+  if(!g[i])return true;
+  if(i%4<3&&g[i]===g[i+1])return true;
+  if(i<12&&g[i]===g[i+4])return true;
+ }
+ return false;
+}
+function show(t,m,b,f){
+ $('ot').textContent=t;$('om').textContent=m;$('ob').textContent=b;act=f;$('ov').style.display='flex';$('ob').focus();
+}
 function draw(){
-$('board').innerHTML=g.map((v,i)=>v?'<div class="t'+(i==fresh?' n':'')+'" style="background:hsl('+((30+v*26)%360)+' 75% '+(62-v*2)+'%)"><span>'+E[v]+'</span><small>'+NM[v]+'</small></div>':'<div class="t e"></div>').join('');
-$('sc').textContent=score;$('bs').textContent=best}
-function start(){g=Array(16).fill(0);score=0;over=won=false;fresh=-1;$('ov').style.display='none';add();add();draw()}
+ $('board').innerHTML=g.map((v,i)=>v?'<div class="t'+(i===fresh?' n':'')+'" role="gridcell" aria-label="'+NM[v]+'" style="background:hsl('+((30+v*26)%360)+' 75% '+(62-v*2)+'%)"><span aria-hidden="true">'+E[v]+'</span><small>'+NM[v]+'</small></div>':'<div class="t e" role="gridcell" aria-label="Empty"></div>').join('');
+ $('sc').textContent=score;$('bs').textContent=best;
+}
+function start(){
+ g=Array(16).fill(0);score=0;over=false;won=false;fresh=-1;$('ov').style.display='none';act=null;add();add();draw();
+}
 function move(d){
-if(over)return;
-let moved=false,gain=0;
-for(let l=0;l<4;l++){
-const ix=[0,1,2,3].map(i=>pos(d,l,i)),a=ix.map(i=>g[i]).filter(Boolean),o=[];
-for(let i=0;i<a.length;i++){if(a[i]==a[i+1]){o.push(a[i]+1);gain+=Math.pow(2,a[i]+1);i++}else o.push(a[i])}
-while(o.length<4)o.push(0);
-ix.forEach((p,i)=>{if(g[p]!=o[i]){moved=true;g[p]=o[i]}})}
-if(!moved)return;
-score+=gain;add();
-if(score>best){best=score;try{localStorage.setItem('mm_best',best)}catch(e){}}
-draw();
-if(!won&&g.indexOf(11)>-1){won=true;show('🏆 Royal Thali!','You did it! Keep going for a higher score?','Keep playing',()=>{$('ov').style.display='none'})}
-else if(!can()){over=true;show('Board full!','Final score: '+score,'Play again',start)}}
-const K={ArrowLeft:0,ArrowRight:1,ArrowUp:2,ArrowDown:3,a:0,d:1,w:2,s:3};
-document.addEventListener('keydown',e=>{if(e.key in K){e.preventDefault();move(K[e.key])}});
-let sx,sy,dn=false;const b=$('board');
+ if(over)return;
+ let moved=false,gain=0;
+ for(let l=0;l<4;l++){
+  const ix=[0,1,2,3].map(i=>pos(d,l,i));
+  const a=ix.map(i=>g[i]).filter(Boolean),o=[];
+  for(let i=0;i<a.length;i++){
+   if(a[i]===a[i+1]){o.push(a[i]+1);gain+=Math.pow(2,a[i]+1);i++}
+   else o.push(a[i]);
+  }
+  while(o.length<4)o.push(0);
+  ix.forEach((p,i)=>{if(g[p]!==o[i]){moved=true;g[p]=o[i]}});
+ }
+ if(!moved)return;
+ score+=gain;add();
+ if(score>best){best=score;try{localStorage.setItem('mm_best',String(best))}catch(e){}}
+ draw();
+ if(!won&&g.indexOf(11)>-1){won=true;show('🏆 Royal Thali!','You did it! Keep going for a higher score?','Keep playing',()=>{$('ov').style.display='none';$('nw').focus()})}
+ else if(!can()){over=true;show('Board full!','Final score: '+score,'Play again',start)}
+}
+const K={ArrowLeft:0,ArrowRight:1,ArrowUp:2,ArrowDown:3,a:0,d:1,w:2,s:3,A:0,D:1,W:2,S:3};
+document.addEventListener('keydown',e=>{if(e.key in K && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();move(K[e.key])}});
+let sx=0,sy=0,dn=false;const b=$('board');
 b.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;dn=true});
-window.addEventListener('pointerup',e=>{if(!dn)return;dn=false;const dx=e.clientX-sx,dy=e.clientY-sy;
-if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;
-move(Math.abs(dx)>Math.abs(dy)?(dx>0?1:0):(dy>0?3:2))});
+window.addEventListener('pointerup',e=>{
+ if(!dn)return;dn=false;
+ const dx=e.clientX-sx,dy=e.clientY-sy;
+ if(Math.max(Math.abs(dx),Math.abs(dy))<24)return;
+ move(Math.abs(dx)>Math.abs(dy)?(dx>0?1:0):(dy>0?3:2));
+});
 $('bl').onclick=()=>move(0);$('br').onclick=()=>move(1);$('bu').onclick=()=>move(2);$('bd').onclick=()=>move(3);
-$('nw').onclick=start;$('ob').onclick=()=>act&&act();
-$('legend').textContent='';
-$('legend').innerHTML=E.slice(1).map((e,i)=>e+' '+NM[i+1]).join(' → ');
-start()})();
+$('nw').onclick=start;$('ob').onclick=()=>{if(typeof act==='function')act()};
+$('legend').textContent=E.slice(1).map((e,i)=>e+' '+NM[i+1]).join(' → ');
+start();
+})();
 </script>
 </body>
 </html>
